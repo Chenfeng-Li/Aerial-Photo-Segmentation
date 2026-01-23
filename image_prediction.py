@@ -70,7 +70,6 @@ if __name__=="__main__":
     img = args.img_dir
     combine = args.combine
     save_dir = args.save_dir
-    print(combine)
 
     if img:
         model, _ = load_model()

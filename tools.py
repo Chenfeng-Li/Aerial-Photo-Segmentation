@@ -49,7 +49,7 @@ norm = BoundaryNorm(boundaries=np.arange(-0.5, n_classes + 0.5, 1), ncolors=n_cl
 legend_patches = [Patch(facecolor=hex_colors[i], label=classes[i]) for i in range(len(classes))]
 legend_patches_transparent = [Patch(facecolor=hex_colors[i], label=classes[i], alpha=0.4) for i in range(len(classes))]
 
-def plot_images_labels(img=None, lab=None, combine=False, save_dir=None):
+def plot_images_labels(img=None, lab=None, combine=False, save_dir=""):
 
     """
     Display the images and/or corresponding labels
@@ -98,7 +98,7 @@ def plot_images_labels(img=None, lab=None, combine=False, save_dir=None):
             plt.axis("off")
         
 
-    if save_dir is not None:
+    if save_dir:
         plt.savefig(save_dir, bbox_inches="tight")
     plt.show()
         
@@ -151,3 +151,7 @@ def remap_labels(lab_arr, IGNORE = 255):
     lab[lab == 0] = IGNORE
     return lab
 
+
+
+if __name__=="__main__":
+    pass
