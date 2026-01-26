@@ -5,5 +5,13 @@ torchvision
 segmentation-models-pytorch
 Pillow
 tqdm
-request
+requests
+
+#video processing
 opencv-python
+
+#image model deployment
+fastapi
+uvicorn[standard]
+python-multipart
+
