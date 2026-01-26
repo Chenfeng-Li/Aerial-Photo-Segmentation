@@ -49,7 +49,8 @@ norm = BoundaryNorm(boundaries=np.arange(-0.5, n_classes + 0.5, 1), ncolors=n_cl
 legend_patches = [Patch(facecolor=hex_colors[i], label=classes[i]) for i in range(len(classes))]
 legend_patches_transparent = [Patch(facecolor=hex_colors[i], label=classes[i], alpha=0.4) for i in range(len(classes))]
 
-def plot_images_labels(img=None, lab=None, combine=False, save_dir=""):
+
+def plot_images_labels(img=None, lab=None, combine=False, save_dir="", return_array=False):
 
     """
     Display the images and/or corresponding labels
@@ -57,13 +58,14 @@ def plot_images_labels(img=None, lab=None, combine=False, save_dir=""):
     lab (PIL image, np array, Path, String or None): An label, label array or the directory of an label. If None then will not be print.
     combine (bool): if False, plot the image and label side by side; if True, plot the image with transparent label on it.
     save_dir (Path, str or None): If not None, save the plot to the directory.
+    return_array (bool): if True, and only when simply display label or display combined image and label, return an array of dimension (H, W, 3)
+                        representing the plot should've displayed. The plot will not display in this case and save_dir is disabled.
     """
     if isinstance(img, PosixPath) or type(img) is str:
         img = Image.open(img)
         img = img.convert('RGB')
     if isinstance(lab, PosixPath) or type(lab) is str:
         lab = Image.open(lab)
-        lab = lab.convert('L')
 
         
     if img is None and lab is None:
@@ -75,9 +77,21 @@ def plot_images_labels(img=None, lab=None, combine=False, save_dir=""):
 
     elif img is None:
         lab_arr = np.array(lab)
-        plt.imshow(lab_arr, cmap=cmap, norm=norm, interpolation="nearest")
-        plt.axis("off")
-        plt.legend(handles=legend_patches, bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0,)
+        
+        if not return_array:
+            plt.imshow(lab_arr, cmap=cmap, norm=norm, interpolation="nearest")
+            plt.axis("off")
+            plt.legend(handles=legend_patches, bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0,)
+        else:        
+            fig, ax = plt.subplots(figsize=(lab_arr.shape[1]/100, lab_arr.shape[0]/100), dpi=100)
+            ax.imshow(lab_arr, cmap=cmap, norm=norm, interpolation="nearest")
+            ax.axis("off")
+            fig.tight_layout(pad=0)
+            fig.canvas.draw()
+            buf = np.frombuffer(fig.canvas.buffer_rgba(), dtype=np.uint8)
+            output_arr = buf.reshape(fig.canvas.get_width_height()[::-1] + (4,))
+            plt.close()
+            return output_arr[:,:,:3] #RGB without A
 
     else:
         lab_arr = np.array(lab)
@@ -92,12 +106,24 @@ def plot_images_labels(img=None, lab=None, combine=False, save_dir=""):
             plt.tight_layout()
             
         else:
-            plt.imshow(img)
-            plt.imshow(lab_arr, cmap=cmap, interpolation="nearest", norm=norm, alpha=0.4)
-            plt.legend(handles=legend_patches_transparent, bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0)
-            plt.axis("off")
-        
-
+            if not return_array:
+                fig, axes = plt.subplots(figsize=(10, 5))
+                plt.imshow(img)
+                plt.imshow(lab_arr, cmap=cmap, interpolation="nearest", norm=norm, alpha=0.4)
+                plt.legend(handles=legend_patches_transparent, bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0)
+                plt.axis("off")
+            else:
+                fig, ax = plt.subplots(figsize=(lab_arr.shape[1]/100, lab_arr.shape[0]/100), dpi=100)
+                ax.imshow(img)
+                ax.imshow(lab_arr, cmap=cmap, interpolation="nearest", norm=norm, alpha=0.4)
+                ax.axis("off")
+                fig.tight_layout(pad=0)
+                fig.canvas.draw()
+                buf = np.frombuffer(fig.canvas.buffer_rgba(), dtype=np.uint8)
+                output_arr = buf.reshape(fig.canvas.get_width_height()[::-1] + (4,))
+                plt.close()
+                return output_arr[:,:,:3]
+                
     if save_dir:
         plt.savefig(save_dir, bbox_inches="tight")
     plt.show()

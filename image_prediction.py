@@ -65,13 +65,15 @@ if __name__=="__main__":
     parser.add_argument('--img_dir', type=str, default="")
     parser.add_argument('--combine', type=bool, default=False)
     parser.add_argument('--save_dir', type=str, default="")
+    parser.add_argument('--model_path', type=str, default="checkpoints/best.pt")
 
     args = parser.parse_args()
     img = args.img_dir
     combine = args.combine
     save_dir = args.save_dir
+    model_path = args.model_path
 
     if img:
-        model, _ = load_model()
+        model, _ = load_model(model_path)
         pred_lab = predict_image(model, img)
         plot_images_labels(img,pred_lab,combine,save_dir)
