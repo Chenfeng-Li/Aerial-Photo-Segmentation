@@ -3,6 +3,8 @@ from pathlib import PosixPath
 from PIL import Image
 import numpy as np
 import argparse
+import os
+import sys
 
 import torch
 import segmentation_models_pytorch as smp
@@ -62,18 +64,21 @@ def predict_image(model, img):
 if __name__=="__main__":
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--img_dir', type=str, default="")
+    parser.add_argument('--img', type=str, default="")
     parser.add_argument('--combine', type=bool, default=False)
-    parser.add_argument('--save_dir', type=str, default="")
-    parser.add_argument('--model_path', type=str, default="checkpoints/best.pt")
+    parser.add_argument('--save', type=str, default="")
+    parser.add_argument('--model', type=str, default="checkpoints/best.pt")
 
     args = parser.parse_args()
-    img = args.img_dir
+    img = args.img
     combine = args.combine
-    save_dir = args.save_dir
-    model_path = args.model_path
+    save = args.save
+    model_path = args.model
 
-    if img:
-        model, _ = load_model(model_path)
-        pred_lab = predict_image(model, img)
-        plot_images_labels(img,pred_lab,combine,save_dir)
+    if not os.path.isfile(img):
+        print("Input image doesn't exists")
+        sys.exit()
+
+    model, _ = load_model(model_path)
+    pred_lab = predict_image(model, img)
+    plot_images_labels(img,pred_lab,combine,save)
