@@ -13,6 +13,9 @@ from tools import plot_images_labels
 from image_prediction import load_model, predict_image
 
 def predict_video(model, video, output):
+    """
+    For a video, predict the label frame by frame and output a video with labels on it.
+    """
     cap = cv2.VideoCapture(video)
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     out_fps = cap.get(cv2.CAP_PROP_FPS)
