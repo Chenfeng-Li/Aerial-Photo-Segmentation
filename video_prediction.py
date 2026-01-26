@@ -30,7 +30,9 @@ def predict_video(model, video, output):
     try:
         with tqdm(total=total_frames, desc="Labeling video", unit="frame") as pbar:
             while True:
-                _, frame_bgr = cap.read()
+                ret, frame_bgr = cap.read()
+                if not ret: #End of video
+                    break 
 
                 frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
                 pred = predict_image(model, frame_rgb)
