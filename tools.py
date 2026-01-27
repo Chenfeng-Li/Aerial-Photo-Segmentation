@@ -79,6 +79,7 @@ def plot_images_labels(img=None, lab=None, combine=False, save_dir="", return_ar
         lab_arr = np.array(lab)
         
         if not return_array:
+            fig, axes = plt.subplots(figsize=(10, 5))
             plt.imshow(lab_arr, cmap=cmap, norm=norm, interpolation="nearest")
             plt.axis("off")
             plt.legend(handles=legend_patches, bbox_to_anchor=(1.05, 1), loc="upper left", borderaxespad=0,)
