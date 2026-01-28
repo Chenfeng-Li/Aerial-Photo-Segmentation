@@ -5,7 +5,7 @@ from tqdm import tqdm
 import os
 import sys
 
-# Plot issue in macbook
+# Fix plotting issue for macbook
 import matplotlib
 matplotlib.use("Agg")
 
@@ -14,7 +14,7 @@ from image_prediction import load_model, predict_image
 
 def predict_video(model, video, output):
     """
-    For a video, predict the label frame by frame and output a video with labels on it.
+    For a video, predict frame by frame and output the video.
     """
     cap = cv2.VideoCapture(video)
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
