@@ -1,0 +1,10 @@
+# Ignore everything by default
+**
+
+# Allow only required files
+!app.py
+!image_prediction.py
+!tools.py
+!requirements.txt
+!Dockerfile
+!checkpoints/**
