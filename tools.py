@@ -100,6 +100,7 @@ def plot_images_labels(img=None, lab=None, combine=False, save_dir="", return_ar
             fig, axes = plt.subplots(1, 2, figsize=(10, 5))
             axes[0].imshow(img)
             axes[0].set_title("Image")
+            axes[0].axis("off")
             axes[1].imshow(lab_arr, cmap=cmap, norm=norm, interpolation="nearest")
             axes[1].set_title("Label")
             axes[1].axis("off")
