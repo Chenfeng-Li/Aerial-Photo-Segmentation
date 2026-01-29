@@ -65,13 +65,13 @@ if __name__=="__main__":
     
     parser = argparse.ArgumentParser()
     parser.add_argument('--img', type=str, default="")
-    parser.add_argument('--combine', type=bool, default=False)
+    parser.add_argument('--combine', type=str, default="False")
     parser.add_argument('--save', type=str, default="")
     parser.add_argument('--model', type=str, default="checkpoints/best.pt")
 
     args = parser.parse_args()
     img = args.img
-    combine = args.combine
+    combine = args.combine in ["True", "true", "TRUE"]
     save = args.save
     model_path = args.model
 
