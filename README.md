@@ -4,10 +4,14 @@ Drones are widely used in fields like agriculture, construction, geographic rese
 
 This project trains <a href="https://smp.readthedocs.io/en/v0.1.3/models.html#id8">DeepLabV3+</a> (a robust segmentation model) in PyTorch with an open-source labelled dataset <a href="https://open-earth-map.org/">OpenEarthMap</a>. A trained model labels the type of land cover for each pixel as a separate image, or combines within the original photos. 
 
-<figure contenteditable='false' class='figureimg'>
-    <img src='assets/project.png'>
-    <figcaption dir='auto'>The model process the left aerial photo (<a href="https://www.nearmap.com/au/blog/aerial-maps-versus-satellite-maps#image-container-undefined">source</a>) to a right label prediction</figcaption>
-</figure>
+<p align="center">
+  <img src="assets/project.png" alt="Model pipeline" width="600"><br>
+  <em>
+    The model processes the left aerial photo
+    (<a href="https://www.nearmap.com/au/blog/aerial-maps-versus-satellite-maps#image-container-undefined">source</a>)
+    to a right label prediction
+  </em>
+</p>
                     
 Besides the image processing, we managed to demonstrate video processing and wrap into webapp. 
 
@@ -17,7 +21,7 @@ $ pip install -r requirement.txt
 ```
 
 ### Pretrained Model
-If you want to test a pretrained model, execute the following codes and jump directly to <a href="#image_prediction">Image Prediction</a> section.
+If you want to test a pretrained model directly, execute the following codes and jump directly to <a href="#image-prediction">Image Prediction</a> section.
 
 ```
 $ pip install huggingface-hub
@@ -107,6 +111,7 @@ $ python video_prediction.py [--video=<str>] [--combine=<bool>] [--save=<str>] [
 
 ### Webapp Deployment
 Deploy a webapp for the model. Not directly related to the project. Details can be found in <a href="https://github.com/Chenfeng-Li/Aerial-Photo-Land-Cover-Segmentation/tree/main/webapp">webapp</a> folder.
+
 
 
 
