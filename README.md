@@ -1,4 +1,4 @@
-# Aerial-Photo-Land-Cover-Segmentation
+# Aerial Photo Land Cover Segmentation
 
 Drones are widely used in fields like agriculture, construction, geographic research and etc. To analyze a bird's eye view photo taken from a drone, one task is to classify the land cover (such as buildings, vegetation, waters and soil) within it. The photos after classification can be used in further analysis.
 
@@ -92,6 +92,7 @@ $ python video_prediction.py [--video=<str>] [--combine=<bool>] [--save=<str>] [
 
 ### Webapp Deployment
 Deploy a webapp for the model. Not directly related to the project. Details can be found in <a href="https://github.com/Chenfeng-Li/Aerial-Photo-Land-Cover-Segmentation/tree/main/webapp">webapp</a> folder.
+
 
 
 
