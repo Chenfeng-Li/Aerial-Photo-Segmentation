@@ -32,7 +32,7 @@ You may also manually download the <a href="https://huggingface.co/Chenfeng-Li/a
 
 ### License note
 
-This pretrained model is trained on full OpenEarthMap dataset, where some data is licensed under **CC BY-NC-SA 4.0**. Therefore, the pretrained model is **not covered by the MIT license** and is intended for **non-commercial use**.
+The source code of the repository is under **MIT license**. However, the pretrained model is trained on full OpenEarthMap dataset, where part of data is licensed under **CC BY-NC-SA 4.0**. Therefore, the pretrained model is **not covered by the MIT license** and is intended for **non-commercial use**.
 
 For license details or commercial usage, please review the <a href="https://open-earth-map.org/attribution.html">OpenEarthMap licenses</a> and train a model using only data that explicitly allows commercial use.  
 
@@ -119,5 +119,6 @@ $ python video_prediction.py [--video=<str>] [--combine=<bool>] [--save=<str>] [
 
 ### Webapp Deployment
 Deploy a webapp for the model. Not directly related to the project. Details can be found in <a href="https://github.com/Chenfeng-Li/Aerial-Photo-Land-Cover-Segmentation/tree/main/webapp">webapp</a> folder.
+
 
 
