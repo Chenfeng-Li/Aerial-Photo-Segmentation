@@ -15,12 +15,12 @@ This project trains <a href="https://smp.readthedocs.io/en/v0.1.3/models.html#id
                     
 Besides the image processing, we managed to demonstrate video processing and wrap into webapp. 
 
-### Install Packages
+## Install Packages
 ```
 $ pip install -r requirement.txt
 ```
 
-### Pretrained Model
+## Pretrained Model
 If you want to test a pretrained model directly, execute the following codes and jump directly to <a href="#image-prediction">Image Prediction</a> section.
 
 ```
@@ -30,7 +30,15 @@ $ python checkpoints/pretrained_model.py
 
 You may also manually download the <a href="https://huggingface.co/Chenfeng-Li/aerial-photo-segmentation/resolve/main/best.pt?download=true">best.pt</a> and move it to the <code>checkpoints</code> file.
 
-### Download OpenEarthMap Dataset
+### License note
+
+This pretrained model is trained on full OpenEarthMap dataset, where some data is licensed under **CC BY-NC-SA 4.0**. Therefore, the pretrained model is **not covered by the MIT license** and is intended for **non-commercial use**.
+
+For license details or commercial usage, please review the <a href="https://open-earth-map.org/attribution.html">OpenEarthMap licenses</a> and train a model using only data that explicitly allows commercial use.  
+
+
+
+## Download OpenEarthMap Dataset
 You may review the dataset information in <a href="https://open-earth-map.org/overview.html">this website</a>, and download using this command.
 
 ```
@@ -39,9 +47,9 @@ $ python openearthmap_download.py
 
 If the script crashes, it is likely because of the network setting of the website. Please manually download <a href="https://zenodo.org/records/7223446/files/OpenEarthMap.zip?download=1">OpenEarthMap.zip</a>, unzip it and move <code>OpenEarthMap_wo_xBD</code> folder in the project directory. 
 
-### Analyze the Dataset
+## Analyze the Dataset
 
-### Train the Model
+## Train the Model
 
 ```
 $ python train.py [--epochs=<int>] [--save_every_ckpt=<bool>]
@@ -61,7 +69,7 @@ The training and validation loss on the first 50 epochs are as follows. Accordin
 <img src="assets/loss.png">
 
 
-### Image Prediction
+## Image Prediction
 
 Display the label prediction of an input image and optionally save the figure.
 ```
@@ -75,7 +83,7 @@ where user may modify
     <li><code>--model</code>: The path of model checkpoints to be loaded. The default model is the best model of the epoch
 </ul>
 
-##### Example
+#### Example
 Here we demostrate the performance of a trained model using the following example.
 
 We have an aerial photo (<a href="https://botlink.com/blog/2018/2/9/10-amazing-drone-photos-you-need-to-see#block-yui_3_17_2_1_1528170595778_239755">source</a>) as follows.
@@ -111,4 +119,5 @@ $ python video_prediction.py [--video=<str>] [--combine=<bool>] [--save=<str>] [
 
 ### Webapp Deployment
 Deploy a webapp for the model. Not directly related to the project. Details can be found in <a href="https://github.com/Chenfeng-Li/Aerial-Photo-Land-Cover-Segmentation/tree/main/webapp">webapp</a> folder.
+
 
