@@ -52,14 +52,14 @@ If the script crashes, it is likely because of the network setting of the websit
 ## Train the Model
 
 ```
-$ python train.py [--epochs=<int>] [--save_every_ckpt=<bool>]
+$ python train.py [--epochs=<int>] [--save_every_ckpt]
 ```
 
 where user may modify
 
 <ul>
     <li><code>--epochs</code>: Number of training epochs, 10 by default.</li>
-    <li><code>--save_every_ckpt</code>: <code>False</code> is default, where only the checkpoints of the best model (minimize validation loss) and last model are saved. If set to <code>True</code>, the checkpoints of best model, last model and every model after each epoch are saved.</li>
+    <li><code>--save_every_ckpt</code>: without this argument, only the checkpoints of the best model (minimize validation loss) and last model are saved; if include this argument, the checkpoints of best model, last model and every model after each epoch are saved.</li>
 </ul>
 
 The model checkpoints will be saved in a <code>checkpoints</code> folder in current directory.
@@ -73,14 +73,15 @@ The training and validation loss on the first 50 epochs are as follows. Accordin
 
 Display the label prediction of an input image and optionally save the figure.
 ```
-$ python image_prediction.py [--image=<str>] [--combine=<bool>] [--save=<str>] [--model=<str>]
+$ python image_prediction.py [--image=<str>] [--combine] [--smooth] [--save=<str>] [--model=<str>] 
 ```
 where user may modify
 <ul>
     <li><code>--image</code>: The path of an input image. If the path is invalid, nothing will be generated.</li>
-    <li><code>--combine</code>: <code>False</code> is default, where only the label prediction are displayed. If set to <code>True</code>, the figure with transparent predicted label covering above the original image is displayed.</li>
+    <li><code>--combine</code>: without this argument, only the label prediction are displayed; if include this argument, the figure with transparent predicted label covering above the original image is displayed.</li>
+    <li><code>--smooth</code>: without this argument, the raw predicted label from the model will be displayed; if include this argument, the salt-and-pepper noise (i.e. a class with tiny areas surrounded by other classes with large area) is removed and the predicted label is smoother. This may slightly decrease the prediction accuracy and takes more processing time, but the result is more explainable.</li>
     <li><code>--save</code>: The path to save the displayed figure. If leave empty, no figure will be saved.</li>
-    <li><code>--model</code>: The path of model checkpoints to be loaded. The default model is the best model of the epoch
+    <li><code>--model</code>: The path of model checkpoints to be loaded. The default model is the best model saved in <code>checkpoints</code> folder.</li>
 </ul>
 
 #### Example
@@ -103,7 +104,7 @@ The following plots will be displayed and saved:
 To have the predicted label cover the original photo, we may execute
 
 ```
-$ python image_prediction.py --image=assets/photo.png --combine=True --save=assets/combined.png
+$ python image_prediction.py --image=assets/photo.png --combine --save=assets/combined.png
 ```
 
 The following plots will be displayed and saved:
@@ -114,7 +115,7 @@ The following plots will be displayed and saved:
 ### Video Prediction
 A small step beyond in image prediction. The model processes the video frame by frame and generates a video with label only or label cover on original video.
 ```
-$ python video_prediction.py [--video=<str>] [--combine=<bool>] [--save=<str>] [--model=<str>]
+$ python video_prediction.py [--video=<str>] [--combine] [--smooth] [--save=<str>] [--model=<str>]
 ```
 
 ### Webapp Deployment
