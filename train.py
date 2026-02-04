@@ -260,7 +260,7 @@ if __name__=="__main__":
    
     parser = argparse.ArgumentParser()
     parser.add_argument('--epochs', type=int, default=10)
-    parser.add_argument('--save_every_ckpt', type=bool, default=False)
+    parser.add_argument('--save_every_ckpt', action="store_true")
     args = parser.parse_args()
     epochs = args.epochs
     save_every_ckpt = args.save_every_ckpt
