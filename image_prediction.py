@@ -9,7 +9,7 @@ import sys
 import torch
 import segmentation_models_pytorch as smp
 
-from tools import plot_images_labels
+from tools import plot_images_labels, label_smoothing
 
 def load_model(model_path="checkpoints/best.pt"):
     """
@@ -64,14 +64,16 @@ def predict_image(model, img):
 if __name__=="__main__":
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--img', type=str, default="")
-    parser.add_argument('--combine', type=str, default="False")
+    parser.add_argument('--image', type=str, default="")
+    parser.add_argument('--combine', action="store_true")
+    parser.add_argument('--smooth', action="store_true")
     parser.add_argument('--save', type=str, default="")
     parser.add_argument('--model', type=str, default="checkpoints/best.pt")
 
     args = parser.parse_args()
-    img = args.img
-    combine = args.combine in ["True", "true", "TRUE"]
+    img = args.image
+    combine = args.combine
+    smooth = args.smooth
     save = args.save
     model_path = args.model
 
@@ -80,5 +82,7 @@ if __name__=="__main__":
         sys.exit()
 
     model, _ = load_model(model_path)
-    pred_lab = predict_image(model, img)
-    plot_images_labels(img,pred_lab,combine,save)
+    pred = predict_image(model, img)
+    if smooth:
+        pred = label_smoothing(pred)
+    plot_images_labels(img,pred,combine,save) if combine else plot_images_labels(None,pred,combine,save)

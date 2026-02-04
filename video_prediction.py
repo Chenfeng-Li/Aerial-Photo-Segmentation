@@ -9,10 +9,10 @@ import sys
 import matplotlib
 matplotlib.use("Agg")
 
-from tools import plot_images_labels
+from tools import plot_images_labels, label_smoothing
 from image_prediction import load_model, predict_image
 
-def predict_video(model, video, save, combine=False):
+def predict_video(model, video, save, combine=False, smooth=False):
     """
     For a video, predict frame by frame and output the video.
     """
@@ -36,6 +36,8 @@ def predict_video(model, video, save, combine=False):
 
                 frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
                 pred = predict_image(model, frame_rgb)
+                if smooth:
+                    pred = label_smoothing(smooth)
                 overlay_rgb = plot_images_labels(frame_rgb, pred, combine, return_array=True) if combine else plot_images_labels(None, pred, combine, return_array=True)
                 if overlay_rgb.dtype != np.uint8:
                     overlay_rgb = np.clip(overlay_rgb, 0, 255).astype(np.uint8)
@@ -52,13 +54,15 @@ def predict_video(model, video, save, combine=False):
 if __name__=="__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--video', type=str, default="")
-    parser.add_argument('--combine', type=str, default="False")
+    parser.add_argument('--combine', action="store_true")
+    parser.add_argument('--smooth', action="store_true")
     parser.add_argument('--save', type=str, default="predict.mp4")
     parser.add_argument('--model', type=str, default="checkpoints/best.pt")
 
     args = parser.parse_args()
     video = args.video
-    combine = args.combine in ["True", "true", "TRUE"]
+    combine = args.combine
+    smooth = args.smooth
     save = args.save
     model_path = args.model
 
@@ -67,4 +71,4 @@ if __name__=="__main__":
         sys.exit()
     
     model, _ = load_model(model_path)
-    predict_video(model, video, save, combine)
+    predict_video(model, video, save, combine, smooth)

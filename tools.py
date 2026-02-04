@@ -8,6 +8,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap, BoundaryNorm
 from matplotlib.patches import Patch
+from skimage.measure import label, regionprops
+from skimage.morphology import binary_dilation, footprint_rectangle
 
 import random
 
@@ -180,6 +182,49 @@ def remap_labels(lab_arr, IGNORE = 255):
     return lab
 
 
+# Label Smoothing
+# This is a prior estimation and can be worked on hyperparameter optimization.
+# 1-8 are respectively "bareland", "rangeland", "developed space", "road", "tree", "water", "agriculture land", "building"
+threshold_area = {1: 1000, 2: 1000, 3: 500, 4: 500, 5: 500, 6: 1000, 7: 300,  8: 200}
+
+def label_smoothing(lab, threshold_area=threshold_area):
+    """
+    For a label map with 8 different entries, we define a group to be "a connected region with the same label".
+    This function removes small groups whose area is lower than the threshold of corresponding label.
+    
+    lab (np array): A predicted label from the model;
+    threshold_area: A pre-defined threshold area for each label
+    """
+    lab = lab.copy()
+
+    for c in range(1, 8):
+        threshold = threshold_area[c]
+        if threshold == 0:
+            continue
+
+        mask = (lab == c)
+
+        # 8-connectivity
+        cc = label(mask, connectivity=2)
+
+        for r in regionprops(cc):
+            if r.area < threshold:
+                comp = (cc == r.label)
+
+                # 1-pixel boundary ring
+                ring = binary_dilation(comp, footprint_rectangle((3, 3))) & (~comp)
+
+                neighbor_lab = lab[ring]
+                neighbor_lab = neighbor_lab[neighbor_lab != c]
+
+                if neighbor_lab.size == 0:
+                    continue
+
+                # majority vote
+                new_label = np.bincount(neighbor_lab).argmax()
+                lab[comp] = new_label
+
+    return lab
 
 if __name__=="__main__":
     pass
