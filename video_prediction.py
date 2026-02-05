@@ -37,7 +37,7 @@ def predict_video(model, video, save, combine=False, smooth=False):
                 frame_rgb = cv2.cvtColor(frame_bgr, cv2.COLOR_BGR2RGB)
                 pred = predict_image(model, frame_rgb)
                 if smooth:
-                    pred = label_smoothing(smooth)
+                    pred = label_smoothing(pred)
                 overlay_rgb = plot_images_labels(frame_rgb, pred, combine, return_array=True) if combine else plot_images_labels(None, pred, combine, return_array=True)
                 if overlay_rgb.dtype != np.uint8:
                     overlay_rgb = np.clip(overlay_rgb, 0, 255).astype(np.uint8)
