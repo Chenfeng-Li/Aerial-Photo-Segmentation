@@ -79,12 +79,12 @@ where user may modify
 <ul>
     <li><code>--image</code>: The path of an input image. If the path is invalid, nothing will be generated.</li>
     <li><code>--combine</code>: without this argument, only the label prediction are displayed; if include this argument, the figure with transparent predicted label covering above the original image is displayed.</li>
-    <li><code>--smooth</code>: without this argument, the raw predicted label from the model will be displayed; if include this argument, the salt-and-pepper noise (i.e. a class with tiny areas surrounded by other classes with large area) is removed and the predicted label is smoother. This may slightly decrease the prediction accuracy and takes more processing time, but the result is more explainable.</li>
+    <li><code>--smooth</code>: without this argument, the raw predicted label from the model will be displayed; if include this argument, the salt-and-pepper noise is removed and the predicted label is smoother. See <a href="#smoothing">Smoothing</a> at the example section below.</li>
     <li><code>--save</code>: The path to save the displayed figure. If leave empty, no figure will be saved.</li>
     <li><code>--model</code>: The path of model checkpoints to be loaded. The default model is the best model saved in <code>checkpoints</code> folder.</li>
 </ul>
 
-#### Example
+## Example
 Here we demostrate the performance of a trained model using the following example.
 
 We have an aerial photo (<a href="https://botlink.com/blog/2018/2/9/10-amazing-drone-photos-you-need-to-see#block-yui_3_17_2_1_1528170595778_239755">source</a>) as follows.
@@ -111,15 +111,20 @@ The following plots will be displayed and saved:
 
 <img src="assets/combined.png">
 
+### Smoothing
+When executing the <code>image_prediction.py</code> with <code>--smooth</code>, the connected region of a label whose area is lower than a certain threshold (differed by 8 labels) is treated as salt-and-pepper noise and replaced by a nearby label with larger area. The post-processing may slightly decrease the prediction accuracy and takes more time, but the result is more explainable. The following figure shows the comparison of the label prediction with or without smoothing.
 
-### Video Prediction
+<img src="assets/smooth.png">
+
+## Video Prediction
 A small step beyond in image prediction. The model processes the video frame by frame and generates a video with label only or label cover on original video.
 ```
 $ python video_prediction.py [--video=<str>] [--combine] [--smooth] [--save=<str>] [--model=<str>]
 ```
 
-### Webapp Deployment
+## Webapp Deployment
 Deploy a webapp for the model. Not directly related to the project. Details can be found in <a href="https://github.com/Chenfeng-Li/Aerial-Photo-Land-Cover-Segmentation/tree/main/webapp">webapp</a> folder.
+
 
 
 
