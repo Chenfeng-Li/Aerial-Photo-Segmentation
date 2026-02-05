@@ -114,7 +114,7 @@ The following plots will be displayed and saved:
 ### Smoothing
 When executing the <code>image_prediction.py</code> with <code>--smooth</code>, the connected region of a label whose area is lower than a certain threshold (differed by 8 labels) is treated as salt-and-pepper noise and replaced by a nearby label with larger area. The post-processing may slightly decrease the prediction accuracy and takes more time, but the result is more explainable. The following figure shows the comparison of the label prediction with or without smoothing.
 
-<img src="assets/smooth.png">
+<img src="assets/smoothing.png">
 
 ## Video Prediction
 A small step beyond in image prediction. The model processes the video frame by frame and generates a video with label only or label cover on original video.
